@@ -1,0 +1,96 @@
+#include "clsController.h"
+#include "clsTcpClient.h"
+#include <sd_diskio.h>
+#include <sd_defines.h>
+#include <SD.h>
+#include "clsDecoder.h"
+#include "WiFi.h"
+#include <Ethernet.h>
+#include <SPI.h>
+#include "clsDecoder.h"
+#include "clsQueue.h"
+
+
+/// <Home Details>
+const char* ssid = "BTHub6-MF87";
+const char* password = "bwDUJThHJ6mv";
+/// </Home Details>
+
+//const char* ssid = "marineai";
+//const char* password = "MA1-turnchapel$$";
+
+//IPAddress host(192,168,55,15);
+IPAddress host(192,168,1,137);
+const int port = 5000;
+
+WiFiClient client;
+
+clsDecoder oDecoder;
+
+
+
+
+
+void InitialiseQueues()
+{
+    
+}
+
+void setup() 
+{
+    Serial.begin(115200);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Connecting to WiFi..");
+    }
+    Serial.println("Connected to the WiFi network");
+    Serial.println(WiFi.localIP());
+    if (!client.connect(host, port)) {
+        Serial.println("connection failed");
+        return;
+    }
+}
+
+void loop() 
+{
+    if (client) {
+        int idx = 0;
+        Serial.print("Client connected with IP:");
+        Serial.println(client.remoteIP());
+        if (WiFi.status() != WL_CONNECTED) 
+        {
+            Serial.println("Disconnectd from WiFi..");
+        }
+        while (client.connected())
+        {  
+            long rssi = WiFi.RSSI();
+            Serial.print("signal strength (RSSI):");
+            Serial.println(rssi);
+
+            // Send the TCP message
+            String szData = "$MYCDC," + (String)idx;
+            szData = szData + ",X00,CN,ARD,100,0*AB";
+            Serial.println(szData);
+            client.print(szData);
+            Serial.println("Sending TCP Message");
+            idx += 1;
+
+            // Receive the TCP response
+            if (client.available()) {
+                String szInputMsg = "";
+                while (client.available() > 0)
+                {
+                    char c = client.read();
+                    szInputMsg += c;
+                }
+                Serial.print("Recieved: ");
+                Serial.println(szInputMsg);
+                oDecoder.DecodeSentence(szInputMsg);
+            }
+            delay(1000);
+        }
+        client.stop();
+    }
+    delay(100);
+}
