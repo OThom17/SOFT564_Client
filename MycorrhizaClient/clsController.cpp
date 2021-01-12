@@ -23,17 +23,21 @@ void clsController::InitialiseController()
 	// IPAddress IP(192, 168, 1, 137);
 	oTcpClient = clsTcpClient(IPAddress(192,168,43,196), 5000, "OnePlus 5", "20202020");
 	oBLEServer = clsBLEServer();
+
 	InitialiseQueues();
 	oTcpClient.Initialise();
 	oBLEServer.Initialise();
 	szMACAddress = oTcpClient.GetMacAddress();
 	oDecoder.SetMacAddress(szMACAddress);
+
+	oSensors = clsSensors();
+	oSensors.Initialise();
 }
 
 bool clsController::RunProgram()
 {
 	// oTcpClient.StartClient();
-	while (true)
+	for (;;)
 	{
 		// TCP Packet Collection
 		oTcpClient.CollectPackets();

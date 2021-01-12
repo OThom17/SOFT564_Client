@@ -210,4 +210,11 @@ C:\Users\OliverThompson\AppData\Local\Temp\VMBuilds\MycorrhizaClient\esp32_esp32
  C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEScan.h \
  C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEUtils.h \
  C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEUtils.h \
- C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEServer.h
+ C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEServer.h \
+ C:\Users\OliverThompson\AppData\Local\Temp\VMBuilds\MycorrhizaClient\esp32_esp32\Debug\clsSensors.h \
+ C:\Users\OliverThompson\Documents\Arduino\libraries\DHT_sensor_library/DHT_U.h \
+ C:\Users\OliverThompson\Documents\Arduino\libraries\Adafruit_Unified_Sensor/Adafruit_Sensor.h \
+ C:\Users\OliverThompson\Documents\Arduino\libraries\DHT_sensor_library/DHT.h \
+ C:\Users\OliverThompson\Documents\Arduino\libraries\LiquidCrystal_I2C-1.1.2/LiquidCrystal_I2C.h \
+ C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\Wire\src/Wire.h \
+ C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\cores\esp32/esp32-hal.h

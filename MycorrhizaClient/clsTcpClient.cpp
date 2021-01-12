@@ -56,8 +56,8 @@ bool clsTcpClient::Initialise()
 {
     do
     {
-        const char* SSID = "OnePlus 5"; // "BTHub6-MF87";
-        const char* PASSWORD = "20202020"; //"bwDUJThHJ6mv";
+        const char* SSID = "OnePlus 5";
+        const char* PASSWORD = "20202020"; 
         WiFi.begin(SSID, PASSWORD);
         delay(5000);
         Serial.println("Connecting to WiFi..");

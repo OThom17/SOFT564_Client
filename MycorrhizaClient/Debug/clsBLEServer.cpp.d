@@ -159,4 +159,5 @@ C:\Users\OliverThompson\AppData\Local\Temp\VMBuilds\MycorrhizaClient\esp32_esp32
  C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEScan.h \
  C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEUtils.h \
  C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEUtils.h \
- C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEServer.h
+ C:\Users\OliverThompson\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.4\libraries\BLE\src/BLEServer.h \
+ C:\Users\OliverThompson\AppData\Local\Temp\VMBuilds\MycorrhizaClient\esp32_esp32\Debug\clsQueue.h

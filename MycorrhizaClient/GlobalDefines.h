@@ -18,4 +18,5 @@
 /// </MarineAI Details>
 
 
+
 #endif // !GLOBALDEFINES_h
