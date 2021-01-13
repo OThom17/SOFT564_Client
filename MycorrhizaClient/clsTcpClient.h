@@ -29,10 +29,11 @@ public:
 	bool StartClient();
 	void CollectPackets();
 
-	void SendPacket(clsBasePacket oPacket);
+	void SendPackets();
 	void SendString(String szMsg);
 	std::vector<clsBasePacket> GetPacketVector();
-	void SetPacketQueue(clsQueue<String> *pQueue);
+	void SetOutgoingPacketQueue(clsQueue<String> *pQueue);
+	void SetIncomingPacketQueue(clsQueue<String> *pQueue);
 	String GetMacAddress();
 	
 private:
@@ -45,7 +46,8 @@ private:
 
 	String szMACAddr = "";
 
-	clsQueue<String> *pTcpPacketQueue = NULL;
+	clsQueue<String> *pTcpOutgoingPacketQueue = NULL;
+	clsQueue<String> *pTcpIncomingPacketQueue = NULL;
 };
 
 

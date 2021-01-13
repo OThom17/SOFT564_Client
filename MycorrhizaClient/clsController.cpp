@@ -13,9 +13,12 @@ clsController::~clsController()
 void clsController::InitialiseQueues()
 {
 	pTcpIncomingPacketQueue = new clsQueue<String>;
-	pTcpOutgoingTcpPacketQueue = new clsQueue<String>;
-	oTcpClient.SetPacketQueue(pTcpIncomingPacketQueue);
-	oDecoder.SetOutgoingQueue(pTcpOutgoingTcpPacketQueue);
+	pTcpOutgoingPacketQueue = new clsQueue<String>;
+
+	oTcpClient.SetIncomingPacketQueue(pTcpIncomingPacketQueue);
+	oTcpClient.SetOutgoingPacketQueue(pTcpOutgoingPacketQueue);
+
+	oDecoder.SetOutgoingQueue(pTcpOutgoingPacketQueue);
 }
 
 void clsController::InitialiseController()
@@ -45,6 +48,8 @@ bool clsController::RunProgram()
 
 		// Decode messages
 		oDecoder.DecodePackets(voPackets);
+#
+		oTcpClient.SendPackets();
 		delay(1000);
 	}
 }

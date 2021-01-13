@@ -20,12 +20,12 @@ clsTcpClient::~clsTcpClient()
 std::vector<clsBasePacket> clsTcpClient::GetPacketVector()
 {
     std::vector<clsBasePacket> voPacketVector;
-    if (pTcpPacketQueue != NULL)
+    if (pTcpIncomingPacketQueue != NULL)
     {
         //While queue still has data pop and send message using UDP.
-        while (pTcpPacketQueue->size() > 0)
+        while (pTcpIncomingPacketQueue->size() > 0)
         {
-            String szMsg = pTcpPacketQueue->pop();
+            String szMsg = pTcpIncomingPacketQueue->pop();
             clsBasePacket oPacket = clsBasePacket(szMsg);
             voPacketVector.push_back(oPacket);
         }
@@ -38,9 +38,14 @@ std::vector<clsBasePacket> clsTcpClient::GetPacketVector()
 }
 
 
-void clsTcpClient::SetPacketQueue(clsQueue<String> *pQueue)
+void clsTcpClient::SetOutgoingPacketQueue(clsQueue<String> *pQueue)
 {
-    pTcpPacketQueue = pQueue;
+    pTcpOutgoingPacketQueue = pQueue;
+}
+
+void clsTcpClient::SetIncomingPacketQueue(clsQueue<String>* pQueue)
+{
+    pTcpIncomingPacketQueue = pQueue;
 }
 
 String clsTcpClient::GetMacAddress()
@@ -64,7 +69,6 @@ bool clsTcpClient::Initialise()
     } while (WiFi.status() != WL_CONNECTED);
 
     szMACAddr = WiFi.macAddress();
-
     Serial.println("Connected to the WiFi network");
     Serial.print("Device Assigned IP: ");
     Serial.println(WiFi.localIP());
@@ -116,7 +120,7 @@ void clsTcpClient::CollectPackets()
                 szInputMsg += c;
             }
             // Output and Place onto Queue Vector
-            pTcpPacketQueue->push(szInputMsg);
+            pTcpIncomingPacketQueue->push(szInputMsg);
         }
         else
         {
@@ -146,15 +150,24 @@ void clsTcpClient::SendString(String szPacket)
     }
 }
 
-void clsTcpClient::SendPacket(clsBasePacket oPacket)
+void clsTcpClient::SendPackets()
 {
     try
     {
-        String szPacket = oPacket.szPacket;
-        client.print(szPacket);
-        if (bVerbose)
-            Serial.println("INFO: Sent TCP message");
-        
+        if (pTcpOutgoingPacketQueue != NULL)
+        {
+            //While queue still has data pop and send message using UDP.
+            while (pTcpOutgoingPacketQueue->size() > 0)
+            {
+                String szMsg = pTcpOutgoingPacketQueue->pop();
+                SendString(szMsg);
+                if (bVerbose)
+                {
+                    Serial.print("INFO: Sent TCP message ");
+                    Serial.println(szMsg);
+                }
+            }
+        }
     }
     catch (std::exception &e)
     {

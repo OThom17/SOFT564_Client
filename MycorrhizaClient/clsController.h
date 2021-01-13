@@ -35,7 +35,7 @@ private:
 	int iPORT = 5000;
 
 	clsQueue<String> *pTcpIncomingPacketQueue = NULL;
-	clsQueue<String> *pTcpOutgoingTcpPacketQueue = NULL;
+	clsQueue<String> *pTcpOutgoingPacketQueue = NULL;
 
 	String szMACAddress = "";
 };
