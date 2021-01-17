@@ -53,6 +53,11 @@ String clsTcpClient::GetMacAddress()
     return szMACAddr;
 }
 
+
+String clsTcpClient::GetLocalIPAddress()
+{
+    return szLocalIP;
+}
 #pragma endregion
 
 
@@ -72,6 +77,7 @@ bool clsTcpClient::Initialise()
     Serial.println("Connected to the WiFi network");
     Serial.print("Device Assigned IP: ");
     Serial.println(WiFi.localIP());
+    szLocalIP = WiFi.localIP().toString();
 
     int iConnectionAttempts = 0;
     do 

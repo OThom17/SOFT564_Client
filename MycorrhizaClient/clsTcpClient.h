@@ -35,16 +35,19 @@ public:
 	void SetOutgoingPacketQueue(clsQueue<String> *pQueue);
 	void SetIncomingPacketQueue(clsQueue<String> *pQueue);
 	String GetMacAddress();
+	String GetLocalIPAddress();
+
 	
 private:
 	
-	bool bVerbose = false;
+	bool bVerbose = true;
 	IPAddress oHost;
 	int iPort = 5000;
 	const char * szSsid = "";
 	const char * szPsswd = "";
 
 	String szMACAddr = "";
+	String szLocalIP = "";
 
 	clsQueue<String> *pTcpOutgoingPacketQueue = NULL;
 	clsQueue<String> *pTcpIncomingPacketQueue = NULL;

@@ -32,6 +32,7 @@ void clsController::InitialiseController()
 	oBLEServer.Initialise();
 	szMACAddress = oTcpClient.GetMacAddress();
 	oDecoder.SetMacAddress(szMACAddress);
+	oDecoder.SetLocalIPAddress(oTcpClient.GetLocalIPAddress());
 
 	oSensors = clsSensors();
 	oSensors.Initialise();

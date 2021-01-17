@@ -38,7 +38,7 @@ void clsDecoder::DecodeSentence(String szMsg)
 	{
 		Serial.println("Request Message Identified");
 		// Respond with acknowledgment message
-		clsBasePacket oPacket = clsBasePacket("MYCREG", "CN", "SRC", std::vector<String>{szMacAddress});
+		clsBasePacket oPacket = clsBasePacket("MYCREG", "CN", "SRC", std::vector<String>{szLocalIP});
 		String szMsg = oPacket.GetPacketSentence(false);
 		Serial.print("Producing String: ");
 		Serial.println(szMsg);

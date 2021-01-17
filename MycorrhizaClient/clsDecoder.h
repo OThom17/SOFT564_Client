@@ -22,6 +22,7 @@ public :
 	void DecodePackets(std::vector<clsBasePacket> voPackets);
 	void SetOutgoingQueue(clsQueue<String>* pQueue);
 	void SetMacAddress(String szMac) { szMacAddress = szMac; }
+	void SetLocalIPAddress(String szMac) { szLocalIP = szMac; }
 
 private:
 	void ActOnSentence();
@@ -29,6 +30,7 @@ private:
 	clsQueue<String> *pOutgoingQueue = NULL;
 
 	String szMacAddress = "";
+	String szLocalIP = "";
 
 };
 
