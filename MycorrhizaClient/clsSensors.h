@@ -9,13 +9,13 @@
 #endif
 #include <DHT_U.h>
 #include <LiquidCrystal_I2C.h>
+#include "clsClientProps.h"
+#include "GlobalDefines.h"
 
 // Set DHT pin:
 #define DHTPIN 4
 // Set DHT type, uncomment whatever type you're using!
 #define DHTTYPE DHT11     // DHT 11 
-//#define DHTTYPE DHT22   // DHT 22  (AM2302)
-//#define DHTTYPE DHT21   // DHT 21 (AM2301)
 #define echoPin 16              // attach pin D2 Arduino to pin Echo of HC-SR04
 #define trigPin 17              //attach pin D3 Arduino to pin Trig of HC-SR04
 #define LED_BUILTIN 2
@@ -31,16 +31,24 @@ public:
 
 	void Initialise();
 	void StartTasks();
+    void SetProperties(clsClientProps* pProps) { pClientProps = pProps; }
+    void SetSensorPacket(clsSensorPacket* pPacket) { pSensorPacket = pPacket; };
 
-private:
-    // Initialize DHT sensor for normal 16mhz Arduino:
+
+    clsSensorPacket GetSensorPacket();
 
     float TemperatureCelcius = -1.0; // Outgoing Variable
     float Humidity = -1.0;           // Outgoing Variable    
     float HeatIndex = -1.0;          // Outgoing Variable
     float Distance = -1.0;          // Outgoing Variable
 
-	void InitialiseSensors();
+private:
+    // Initialize DHT sensor for normal 16mhz Arduino:
+    clsClientProps* pClientProps = NULL;
+    clsSensorPacket* pSensorPacket = NULL;
+
+
+    void InitialiseSensors();
 
     static void TaskBlink(void* pvParameters)  // This is a task.
     {
@@ -105,26 +113,28 @@ private:
             // Compute heat index in Celsius:
             float hic = dht.computeHeatIndex(t, h, false);
 
-            o.TemperatureCelcius = t;
-            o.Humidity = h;
 
-            Serial.print("Humidity: ");
-            Serial.print(h);
-            Serial.print(" % ");
-            Serial.print("Temperature: ");
-            Serial.print(t);
-            Serial.print(" \xC2\xB0");
-            Serial.print("C | ");
-            Serial.print(f);
-            Serial.print(" \xC2\xB0");
-            Serial.print("F ");
-            Serial.print("Heat index: ");
-            Serial.print(hic);
-            Serial.print(" \xC2\xB0");
-            Serial.print("C | ");
-            Serial.print(hif);
-            Serial.print(" \xC2\xB0");
-            Serial.println("F");
+            o.pSensorPacket->fTemp= t;
+            o.pSensorPacket->fHumidity = h;
+            o.pSensorPacket->fHeatIndex = hic;
+
+            //Serial.print("Humidity: ");
+            //Serial.print(h);
+            //Serial.print(" % ");
+            //Serial.print("Temperature: ");
+            //Serial.print(t);
+            //Serial.print(" \xC2\xB0");
+            //Serial.print("C | ");
+            //Serial.print(f);
+            //Serial.print(" \xC2\xB0");
+            //Serial.print("F ");
+            //Serial.print("Heat index: ");
+            //Serial.print(hic);
+            //Serial.print(" \xC2\xB0");
+            //Serial.print("C | ");
+            //Serial.print(hif);
+            //Serial.print(" \xC2\xB0");
+            //Serial.println("F");
         }
     }
 
@@ -150,13 +160,9 @@ private:
             float duration = pulseIn(echoPin, HIGH);
             // Calculating the distance
             float distance = duration * 0.034 / 2; // Speed of sound wave divided by 2 (go and back)
-            // Displays the distance on the Serial Monitor
+            o.pSensorPacket->fUltraDistance = distance;
 
-            //Serial.print("Distance: ");
-            //Serial.print(distance);
-            //Serial.println(" cm");
 
-            o.Distance = distance;
         }
     }
 
@@ -167,16 +173,20 @@ private:
         */
         (void)pvParameters;
          clsSensors o = *((clsSensors*)pvParameters);
+         
          const TickType_t xDelay = 1000 / portTICK_PERIOD_MS;
 
         for (;;)
         {
             vTaskDelay(xDelay);
-            Serial.print("Sensor Packet -> Distance: ");
-            Serial.print(o.Distance); Serial.print("  cm");
-            Serial.print("  Temp: "); Serial.print(o.TemperatureCelcius); Serial.print("  C");
-            Serial.print("  Humidity: "); Serial.print(o.Humidity); Serial.print("  %");
-            Serial.println("    -> END");
+            if (o.pClientProps->bAutoSensorSample)
+            {
+                Serial.print("Sensor Packet -> Distance: ");
+                Serial.print(o.Distance); Serial.print("  cm");
+                Serial.print("  Temp: "); Serial.print(o.TemperatureCelcius); Serial.print("  C");
+                Serial.print("  Humidity: "); Serial.print(o.Humidity); Serial.print("  %");
+                Serial.println("    -> END");
+            }
         }
     }
 
@@ -212,6 +222,35 @@ private:
         }
     }
 
+  //static void startTaskBlink(void* _this) 
+  //{
+  //    // Wrapper function for non-static member function instantiation
+  //    static_cast<clsSensors*>(_this)->TaskBlink();
+  //}
+
+  //static void startTaskDHTData(void* _this)
+  //{
+  //    // Wrapper function for non-static member function instantiation
+  //    static_cast<clsSensors*>(_this)->TaskCollectDHTData();
+  //}
+
+  //static void startTaskUltraRange(void* _this)
+  //{
+  //    // Wrapper function for non-static member function instantiation
+  //    static_cast<clsSensors*>(_this)->TaskGetUltraRange();
+  //}
+
+  //static void startTaskSensorDispatcher(void* _this)
+  //{
+  //    // Wrapper function for non-static member function instantiation
+  //    static_cast<clsSensors*>(_this)->TaskSensorDispatcher();
+  //}
+
+  //static void startTaskLCDController(void* _this)
+  //{
+  //    // Wrapper function for non-static member function instantiation
+  //    static_cast<clsSensors*>(_this)->TaskLCDController();
+  //}
 };
 
 #endif

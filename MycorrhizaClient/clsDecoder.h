@@ -11,6 +11,7 @@
 #include "clsPacket.h"
 #include "GlobalDefines.h"
 #include "clsQueue.h"
+#include "clsClientProps.h"
 
 class clsDecoder
 {
@@ -23,15 +24,14 @@ public :
 	void SetOutgoingQueue(clsQueue<String>* pQueue);
 	void SetMacAddress(String szMac) { szMacAddress = szMac; }
 	void SetLocalIPAddress(String szMac) { szLocalIP = szMac; }
+	void SetProperties(clsClientProps* pProps) { pClientProps = pProps; }
 
 private:
 	void ActOnSentence();
-
 	clsQueue<String> *pOutgoingQueue = NULL;
-
+	clsClientProps* pClientProps = NULL;
 	String szMacAddress = "";
 	String szLocalIP = "";
-
 };
 
 

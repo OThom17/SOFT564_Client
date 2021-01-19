@@ -17,6 +17,14 @@
 //const char* password = "MA1-turnchapel$$";
 /// </MarineAI Details>
 
+class clsSensorPacket
+{
+public:
+    float fTemp;
+    float fHumidity;
+    float fHeatIndex;
+    float fUltraDistance;
+};
 
 
 #endif // !GLOBALDEFINES_h

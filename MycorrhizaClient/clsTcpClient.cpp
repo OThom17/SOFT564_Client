@@ -101,6 +101,11 @@ bool clsTcpClient::Initialise()
 
 bool clsTcpClient::StartClient()
 {
+    if (WiFi.status() != WL_CONNECTED)
+    {
+        Serial.println("Reinitialising WiFi Connection");
+        Initialise();
+    }
     client.connect(oHost, iPort);
     if (client.connected())
     {

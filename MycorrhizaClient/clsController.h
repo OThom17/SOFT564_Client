@@ -15,6 +15,7 @@
 #include "clsTcpClient.h"
 #include "clsBLEServer.h"
 #include "clsSensors.h"
+#include "clsClientProps.h"
 
 class clsController
 {
@@ -25,11 +26,15 @@ public:
 	void InitialiseQueues();
 	void InitialiseController();
 
+
 private:
 	clsDecoder oDecoder;
 	clsTcpClient oTcpClient;
 	clsBLEServer oBLEServer;
 	clsSensors oSensors;
+
+	clsClientProps oClientProperties;
+	clsSensorPacket oSensorPacket;
 
 	IPAddress oIP = IPAddress(192, 168, 1, 137);
 	int iPORT = 5000;
@@ -38,6 +43,9 @@ private:
 	clsQueue<String> *pTcpOutgoingPacketQueue = NULL;
 
 	String szMACAddress = "";
+	String szLocalAddress = "";
+
+	void DispatchSensorData();
 };
 
 

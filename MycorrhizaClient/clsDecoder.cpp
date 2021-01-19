@@ -38,15 +38,33 @@ void clsDecoder::DecodeSentence(String szMsg)
 	{
 		Serial.println("Request Message Identified");
 		// Respond with acknowledgment message
-		clsBasePacket oPacket = clsBasePacket("MYCREG", "CN", "SRC", std::vector<String>{szLocalIP});
+		clsBasePacket oPacket = clsBasePacket("$MYCREG", "CN", "SRC", std::vector<String>{szLocalIP});
 		String szMsg = oPacket.GetPacketSentence(false);
 		Serial.print("Producing String: ");
 		Serial.println(szMsg);
 		// Add to outgoing tcp buffer
 		pOutgoingQueue->push(szMsg);
 	}
-	else if (oPacket.szIdentifier.indexOf("MD") > 0)
+	else if (oPacket.szIdentifier.indexOf("ASP") > 0)
 	{
-
+		// Enable automatic sampling
+		if (oPacket.vszPayload.at(0) == "0")
+		{
+			pClientProps->bAutoSensorSample = false;
+			Serial.println("Enabled Autosampling");
+		}
+		else if (oPacket.vszPayload.at(0) == "1")
+		{
+			pClientProps->bAutoSensorSample = true;
+			Serial.println("Disabled Autosampling");
+		}
+		else
+		{
+			Serial.println("Malformed Data ASP Sentence");
+		}
+	}
+	else
+	{
+		Serial.println("Unknown Sentence Identifier: " + oPacket.szIdentifier);
 	}
 }

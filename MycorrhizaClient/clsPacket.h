@@ -29,7 +29,8 @@ public:
 		}
 		else
 		{
-			Serial.println("ERROR - Decoder: Insufficient Message Field Count");
+			Serial.print("ERROR - Decoder: Insufficient Message Field Count, Count: ");
+			Serial.println(vszTokenisedMsg.size());
 		}
 	}
 
@@ -100,7 +101,7 @@ private:
 			lszTokenised.push_back(pch);
 			pch = strtok(NULL, acDelimiterList);
 		}
-		// Serial.print("Tokenised List ->");
+		//Serial.print("Tokenised List ->");
 		//for (auto v : lszTokenised)
 		//{
 		//	Serial.print(v);
